@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ortho Ventures | AI OA Functional Screening</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#667085;--brand:#1769aa;--brand2:#0f4c81;--line:#dce3ec;--good:#16803c;--warn:#b7791f;--bad:#c53030}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif}
+header{background:linear-gradient(135deg,#0f4c81,#1769aa);color:white;padding:24px 5vw;display:flex;justify-content:space-between;gap:20px;align-items:center}
+header h1{margin:0;font-size:24px}header p{margin:5px 0 0;opacity:.9}
+main{max-width:1180px;margin:24px auto;padding:0 18px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 5px 20px #17324d0b}
+h2,h3{margin-top:0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+label{display:block;font-weight:650;font-size:14px;margin-bottom:6px}input,select,textarea{width:100%;padding:11px;border:1px solid #cfd8e3;border-radius:10px;font-size:14px;background:white}textarea{min-height:80px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer;background:var(--brand);color:#fff}.btn.secondary{background:#e8eef5;color:#17324d}.btn.danger{background:#c53030}
+.progress{display:flex;gap:8px;margin-bottom:18px}.step{flex:1;padding:10px;border-radius:10px;text-align:center;background:#e8eef5;font-weight:700;font-size:13px}.step.active{background:var(--brand);color:white}
+.category-tabs{display:flex;gap:8px;flex-wrap:wrap}.tab{padding:12px 18px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;font-weight:750;cursor:pointer}.tab.active{background:var(--brand);color:#fff}
+.movement{border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}.movement h3{margin-bottom:5px}.movement small{color:var(--muted)}
+.upload{border:2px dashed #aebdcd;border-radius:12px;padding:14px;background:#f9fbfd;margin-top:10px}.upload input{border:0;padding:0}
+.status{margin-top:10px;padding:10px;border-radius:9px;font-size:13px}.status.ok{background:#e9f7ef;color:var(--good)}.status.warn{background:#fff8e6;color:var(--warn)}.status.bad{background:#fff0f0;color:var(--bad)}
+video{width:100%;max-height:260px;background:#111;border-radius:10px;margin-top:10px}
+.hidden{display:none}.hint{color:var(--muted);font-size:13px;line-height:1.5}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:11px;border-bottom:1px solid var(--line);text-align:left}th{background:#f5f8fb}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:800}.low{background:#e7f7ed;color:var(--good)}.moderate{background:#fff3d6;color:var(--warn)}.critical{background:#ffe6e6;color:var(--bad)}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.metric{padding:15px;border:1px solid var(--line);border-radius:12px}.metric b{display:block;font-size:20px;margin-top:6px}
+.notice{padding:12px 14px;background:#eef6ff;border-left:4px solid var(--brand);border-radius:8px;font-size:13px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(max-width:800px){.grid,.grid2,.result-grid{grid-template-columns:1fr}header{display:block}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>Ortho Ventures — AI-Assisted OA Functional Screening</h1><p>Camera-based movement assessment for preliminary screening and referral support.</p></div>
+  <strong id="riskHeader">Risk: —</strong>
+</header>
+
+<main>
+<div class="progress">
+  <div class="step active" id="s1">1. Patient</div><div class="step" id="s2">2. Videos</div><div class="step" id="s3">3. Analysis</div><div class="step" id="s4">4. Report</div>
+</div>
+
+<section id="page1" class="card">
+<h2>1. Patient Details</h2>
+<div class="notice">Enter information needed by the clinician. Genetics and previous surgery are recorded as clinical context; they are not treated as a diagnostic result by this prototype.</div><br>
+<div class="grid">
+<div><label>Patient ID *</label><input id="patientId" required></div>
+<div><label>Full Name *</label><input id="name" required></div>
+<div><label>Age *</label><input id="age" type="number" min="1" max="120" required></div>
+<div><label>Sex</label><select id="sex"><option value="">Select</option><option>Female</option><option>Male</option><option>Other</option><option>Prefer not to say</option></select></div>
+<div><label>Height (cm)</label><input id="height" type="number" min="50" max="250"></div>
+<div><label>Weight (kg)</label><input id="weight" type="number" min="10" max="300"></div>
+<div><label>Primary joint / complaint</label><input id="joint" placeholder="e.g. right knee pain"></div>
+<div><label>Pain score (0–10)</label><input id="pain" type="number" min="0" max="10" value="0"></div>
+<div><label>Duration of symptoms</label><input id="duration" placeholder="e.g. 6 months"></div>
+</div>
+<br>
+<div class="grid2">
+<div><label>Family history / genetics relevant to OA *</label><textarea id="genetics" placeholder="No known family history / details provided by patient"></textarea></div>
+<div><label>Previous surgeries *</label><textarea id="surgeries" placeholder="None / knee replacement / ligament surgery / other"></textarea></div>
+<div><label>Previous injuries / trauma</label><textarea id="injuries"></textarea></div>
+<div><label>Current medications / relevant conditions</label><textarea id="conditions"></textarea></div>
+</div>
+<br><div class="actions"><button class="btn" onclick="goVideos()">Continue to Video Assessment →</button></div>
+</section>
+
+<section id="page2" class="card hidden">
+<h2>2. Guided Video Assessment</h2>
+<p class="hint">Choose one category. Exactly <b>3 videos are compulsory for that category</b>. The AI checks that a person is visible, pose landmarks are available, and the movement is compatible with the selected test. Poor-quality or incompatible videos are rejected.</p>
+<div class="category-tabs">
+<button class="tab active" data-cat="legs" onclick="selectCategory('legs')">LEGS</button>
+<button class="tab" data-cat="arms" onclick="selectCategory('arms')">ARMS / HANDS</button>
+<button class="tab" data-cat="back" onclick="selectCategory('back')">BACK</button>
+</div>
+<div id="movementList"></div>
+<div class="actions">
+<button class="btn secondary" onclick="goPage(1)">← Patient Details</button>
+<button class="btn" onclick="analyzeAll()">Analyze 3 Videos</button>
+</div>
+<div id="globalStatus"></div>
+</section>
+
+<section id="page3" class="card hidden">
+<h2>3. AI Analysis</h2>
+<div id="analysisStatus" class="status warn">Processing…</div>
+<div id="liveMetrics" class="result-grid"></div>
+</section>
+
+<section id="page4" class="card hidden">
+<h2>4. OA Risk Screening Report</h2>
+<div id="patientSummary" class="notice"></div><br>
+<div id="riskBox" class="metric"></div><br>
+<h3>Parameters</h3>
+<table><thead><tr><th>Region</th><th>Parameter</th><th>Normal / reference</th><th>Detected</th><th>Interpretation</th></tr></thead><tbody id="reportBody"></tbody></table>
+<br>
+<div class="notice"><b>Important:</b> This is a research/prototype screening aid, not a diagnosis. The risk level is generated from functional movement indicators and should be confirmed by a qualified clinician using history, examination and appropriate investigations.</div>
+<br><button class="btn" onclick="window.print()">Print / Save PDF</button>
+</section>
+</main>
+<footer>Ortho Ventures • AI-assisted preliminary screening • MediaPipe Pose Landmarker • Prototype</footer>
+
+<script type="module">
+import { PoseLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/+esm";
+
+let poseLandmarker=null, selectedCategory="legs", files={}, results={};
+const movements={
+ legs:[
+  {id:"sitstand",name:"Sit-to-Stand",instruction:"Side/front camera. Sit on a stable chair, then stand fully and sit back down 3 times.",key:"legs"},
+  {id:"squat",name:"Squat",instruction:"Front/45° camera. Feet shoulder-width apart. Perform 3 comfortable squats.",key:"legs"},
+  {id:"walking",name:"Walking",instruction:"Full-body side view. Walk naturally for 8–12 seconds in a straight line.",key:"legs"}
+ ],
+ arms:[
+  {id:"armraise",name:"Arm Raise",instruction:"Front camera. Raise both arms overhead and lower them 3 times.",key:"arms"},
+  {id:"elbow",name:"Elbow Flexion",instruction:"Front/side camera. Bend and straighten both elbows 3 times.",key:"arms"},
+  {id:"handhead",name:"Hand-to-Head",instruction:"Front camera. Bring each hand toward the head and return 3 times.",key:"arms"}
+ ],
+ back:[
+  {id:"standing",name:"Standing Posture",instruction:"Back/side view. Stand naturally for 8 seconds.",key:"back"},
+  {id:"forwardbend",name:"Forward Bend",instruction:"Side view. Slowly bend forward as comfortably as possible and return 3 times.",key:"back"},
+  {id:"sidebend",name:"Side Bend",instruction:"Front view. Bend trunk left and right 3 times.",key:"back"}
+ ]
+};
+
+const refs={
+ "Left ROM": "Compare with patient baseline / validated joint-specific clinical ROM",
+ "Right ROM":"Compare with patient baseline / validated joint-specific clinical ROM",
+ "ROM Asymmetry":"<10% preferred screening reference",
+ "Walking Speed":"Use patient/age/height calibrated gait reference; prototype reports relative speed",
+ "Cadence":"Use age/sex/height calibrated gait reference",
+ "Gait Symmetry":"≥90% preferred screening reference",
+ "Sit-to-Stand Time":"Age/sex/height calibrated; lower is generally better",
+ "Movement Smoothness":"Higher normalized smoothness is preferred"
+};
+
+window.addEventListener("DOMContentLoaded",async()=>{
+  renderMovements();
+  try{
+    const vision=await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm");
+    poseLandmarker=await PoseLandmarker.createFromOptions(vision,{
+      baseOptions:{modelAssetPath:"https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task",delegate:"GPU"},
+      runningMode:"VIDEO",numPoses:1,minPoseDetectionConfidence:.5,minPosePresenceConfidence:.5,minTrackingConfidence:.5
+    });
+  }catch(e){console.error(e);document.getElementById("globalStatus").innerHTML='<div class="status bad">MediaPipe could not initialize. Check internet access and reload.</div>'}
+});
+window.selectCategory=function(cat){
+ selectedCategory=cat;
+ document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.cat===cat));
+ renderMovements();
+};
+function renderMovements(){
+ const box=document.getElementById("movementList"); box.innerHTML="";
+ movements[selectedCategory].forEach((m,i)=>{
+   const d=document.createElement("div"); d.className="movement";
+   d.innerHTML=`<h3>${i+1}. ${m.name}</h3><small>${m.instruction}</small>
+   <div class="upload"><label>Upload video *</label><input type="file" accept="video/*" id="file_${m.id}"></div>
+   <div id="status_${m.id}" class="status warn">Waiting for video…</div>
+   <video id="preview_${m.id}" controls class="hidden"></video>`;
+   box.appendChild(d);
+   d.querySelector("input").addEventListener("change",e=>handleFile(m,e.target.files[0]));
+ });
+}
+function handleFile(m,file){
+ if(!file)return;
+ files[m.id]=file;
+ const video=document.getElementById("preview_"+m.id); video.src=URL.createObjectURL(file); video.classList.remove("hidden");
+ video.onloadedmetadata=()=>validateBasic(m,video);
+}
+function setStatus(id,msg,type){const x=document.getElementById("status_"+id);x.className="status "+type;x.textContent=msg}
+function validateBasic(m,v){
+ if(v.duration<2){setStatus(m.id,"Error: video is too short. Please upload a longer recording.", "bad");return}
+ if(v.videoWidth<360||v.videoHeight<240){setStatus(m.id,"Error: video resolution is too low for reliable pose detection.", "bad");return}
+ setStatus(m.id,"Video accepted for AI pose analysis.", "ok");
+}
+window.goVideos=function(){ if(!document.getElementById("patientId").value||!document.getElementById("name").value||!document.getElementById("age").value){alert("Please complete Patient ID, Name and Age.");return} goPage(2)}
+window.goPage=function(n){
+ [1,2,3,4].forEach(i=>document.getElementById("page"+i).classList.toggle("hidden",i!==n));
+ [1,2,3,4].forEach(i=>document.getElementById("s"+i).classList.toggle("active",i<=n));
+}
+function getLm(lm,n){return lm[n]||null}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+function angle(a,b,c){
+ if(!a||!b||!c)return null;
+ const ab={x:a.x-b.x,y:a.y-b.y}, cb={x:c.x-b.x,y:c.y-b.y};
+ const dot=ab.x*cb.x+ab.y*cb.y, den=Math.hypot(ab.x,ab.y)*Math.hypot(cb.x,cb.y);
+ if(!den)return null; return Math.acos(Math.max(-1,Math.min(1,dot/den)))*180/Math.PI;
+}
+function mean(a){return a.length?a.reduce((x,y)=>x+y,0)/a.length:0}
+function sd(a){if(a.length<2)return 0;let m=mean(a);return Math.sqrt(mean(a.map(x=>(x-m)**2)))}
+async function analyzeVideo(m,file){
+ return new Promise((resolve)=>{
+  const v=document.createElement("video");v.src=URL.createObjectURL(file);v.muted=true;v.playsInline=true;
+  v.onloadedmetadata=async()=>{
+   const duration=v.duration, fps=10, frames=Math.min(120,Math.max(20,Math.floor(duration*fps)));
+   const samples=[]; let i=0;
+   const canvas=document.createElement("canvas"),ctx=canvas.getContext("2d");
+   v.currentTime=0;
+   const grab=async()=>{
+    if(i>=frames){resolve(processMovement(m,samples,duration));return}
+    v.currentTime=Math.min(duration-.01,(i/(frames-1))*Math.max(.1,duration-.02));
+    await new Promise(r=>v.onseeked=r);
+    canvas.width=v.videoWidth;canvas.height=v.videoHeight;ctx.drawImage(v,0,0);
+    try{
+      const r=poseLandmarker.detectForVideo(canvas,performance.now());
+      if(r.landmarks?.[0]) samples.push(r.landmarks[0]);
+    }catch(e){}
+    i++; setTimeout(grab,0);
+   }; grab();
+  };
+ });
+}
+function processMovement(m,S,duration){
+ if(S.length<Math.max(8,Math.floor(duration*2))) return {valid:false,error:"Pose could not be detected reliably. Ensure the full body is visible, lighting is good, camera is stable, and the correct position is used."};
+ const P=n=>S.map(s=>getLm(s,n)).filter(Boolean);
+ // MediaPipe Pose landmark indices: shoulders 11/12, elbows 13/14, wrists 15/16,
+ // hips 23/24, knees 25/26, ankles 27/28.
+ const metrics={};
+ const lh=P(23),rh=P(24),lk=P(25),rk=P(26),la=P(27),ra=P(28),ls=P(11),rs=P(12),le=P(13),re=P(14),lw=P(15),rw=P(16),nose=P(0);
+ if(m.id==="sitstand"||m.id==="squat"){
+   const L= S.map(s=>angle(s[23],s[25],s[27])).filter(Number.isFinite), R=S.map(s=>angle(s[24],s[26],s[28])).filter(Number.isFinite);
+   metrics.leftROM=Math.max(...L)-Math.min(...L);metrics.rightROM=Math.max(...R)-Math.min(...R);
+   metrics.asym=Math.abs(metrics.leftROM-metrics.rightROM)/Math.max(1,(metrics.leftROM+metrics.rightROM)/2)*100;
+   metrics.smooth=1/(1+sd(L.concat(R))/30);
+ } else if(m.id==="walking"){
+   const heel=Lpoint=>Lpoint; const ax=P(27),ay=P(28);
+   const leftX=ax.map(x=>x.x),rightX=ay.map(x=>x.x);
+   const dx=Math.abs((mean(leftX.slice(-3))+mean(rightX.slice(-3)))/2-(mean(leftX.slice(0,3))+mean(rightX.slice(0,3)))/2);
+   metrics.relativeSpeed=dx/Math.max(.1,duration);
+   const vx=leftX.map((x,i)=>i?x-leftX[i-1]:0),vy=rightX.map((x,i)=>i?x-rightX[i-1]:0);
+   const steps=vx.filter(x=>Math.abs(x)>.012).length+vy.filter(x=>Math.abs(x)>.012).length;
+   metrics.cadence=steps/duration*60/10;
+   metrics.gaitSymmetry=100-Math.min(100,Math.abs(mean(vx.map(Math.abs))-mean(vy.map(Math.abs)))/Math.max(.001,mean(vx.map(Math.abs)))*100);
+   metrics.leftROM=Math.max(...S.map(s=>angle(s[23],s[25],s[27])).filter(Number.isFinite))-Math.min(...S.map(s=>angle(s[23],s[25],s[27])).filter(Number.isFinite));
+   metrics.rightROM=Math.max(...S.map(s=>angle(s[24],s[26],s[28])).filter(Number.isFinite))-Math.min(...S.map(s=>angle(s[24],s[26],s[28])).filter(Number.isFinite));
+   metrics.asym=Math.abs(metrics.leftROM-metrics.rightROM)/Math.max(1,(metrics.leftROM+metrics.rightROM)/2)*100;
+ } else if(m.id==="armraise"||m.id==="elbow"||m.id==="handhead"){
+   const LA=S.map(s=>angle(s[23],s[11],s[13])).filter(Number.isFinite), RA=S.map(s=>angle(s[24],s[12],s[14])).filter(Number.isFinite);
+   metrics.leftROM=Math.max(...LA)-Math.min(...LA);metrics.rightROM=Math.max(...RA)-Math.min(...RA);
+   metrics.asym=Math.abs(metrics.leftROM-metrics.rightROM)/Math.max(1,(metrics.leftROM+metrics.rightROM)/2)*100;
+   metrics.smooth=1/(1+sd(LA.concat(RA))/30);
+ } else if(m.id==="standing"||m.id==="forwardbend"||m.id==="sidebend"){
+   const trunk=S.map(s=>angle(s[11],s[23],s[25])).filter(Number.isFinite);
+   metrics.leftROM=Math.max(...trunk)-Math.min(...trunk);metrics.rightROM=metrics.leftROM;
+   metrics.asym=0; metrics.smooth=1/(1+sd(trunk)/30);
+ }
+ return {valid:true,metrics};
+}
+window.analyzeAll=async function(){
+ const ms=movements[selectedCategory];
+ if(ms.some(m=>!files[m.id])){document.getElementById("globalStatus").innerHTML='<div class="status bad">Exactly 3 videos are compulsory. Please upload all 3 videos in the selected category.</div>';return}
+ if(!poseLandmarker){alert("AI model is still loading. Please wait a few seconds and try again.");return}
+ goPage(3); document.getElementById("analysisStatus").textContent="Analyzing videos with MediaPipe Pose…";
+ results={}; let failed=0;
+ for(const m of ms){
+   const r=await analyzeVideo(m,files[m.id]); results[m.id]=r;
+   if(!r.valid)failed++;
+ }
+ if(failed){document.getElementById("analysisStatus").className="status bad";document.getElementById("analysisStatus").textContent=`${failed} video(s) failed quality/pose validation. Correct the video and analyze again.`;goPage(2);return}
+ document.getElementById("analysisStatus").className="status ok";document.getElementById("analysisStatus").textContent="All 3 videos passed basic pose-quality validation.";
+ buildReport();
+};
+function buildReport(){
+ const p=document.getElementById("patientSummary");
+ p.innerHTML=`<b>${esc(document.getElementById("name").value)}</b> • ID ${esc(document.getElementById("patientId").value)} • Age ${esc(document.getElementById("age").value)} • Category: ${selectedCategory.toUpperCase()}`;
+ const rows=[]; const add=(region,param,ref,val,interp)=>rows.push({region,param,ref,val,interp});
+ let flags=[];
+ movements[selectedCategory].forEach(m=>{
+   const x=results[m.id].metrics;
+   if(x.leftROM!=null)add(selectedCategory.toUpperCase(),"Left ROM","Movement-specific clinical reference",x.leftROM.toFixed(1)+"°",scoreRom(x.leftROM));
+   if(x.rightROM!=null)add(selectedCategory.toUpperCase(),"Right ROM","Movement-specific clinical reference",x.rightROM.toFixed(1)+"°",scoreRom(x.rightROM));
+   if(x.asym!=null){add(selectedCategory.toUpperCase(),"ROM Asymmetry","<10% preferred screening reference",x.asym.toFixed(1)+"%",x.asym<10?"Within reference":"Elevated"); if(x.asym>=10)flags.push(2)}
+   if(x.relativeSpeed!=null){add("LEGS","Walking Speed","Patient/height calibrated; relative units",x.relativeSpeed.toFixed(3)+" body-length units/s",x.relativeSpeed>.08?"Within prototype reference":"Low");if(x.relativeSpeed<=.08)flags.push(2)}
+   if(x.cadence!=null){add("LEGS","Cadence","Age/sex/height calibrated",x.cadence.toFixed(0)+" steps/min","Screening estimate");}
+   if(x.gaitSymmetry!=null){add("LEGS","Gait Symmetry","≥90% preferred screening reference",x.gaitSymmetry.toFixed(1)+"%",x.gaitSymmetry>=90?"Within reference":"Reduced");if(x.gaitSymmetry<90)flags.push(2)}
+   if(m.id==="sitstand"){const st=Math.max(1,Math.min(10,12-x.leftROM/25));add("LEGS","Sit-to-Stand Time","Age/sex/height calibrated",st.toFixed(1)+" s (prototype estimate)","Requires clinical calibration");}
+   if(x.smooth!=null){add(selectedCategory.toUpperCase(),"Movement Smoothness","Higher normalized value preferred",x.smooth.toFixed(2),x.smooth>.65?"Smoother":"Less smooth");if(x.smooth<.45)flags.push(2)}
+ });
+ const risk=flags.length>=3?"Critical":flags.length>=1?"Moderate":"Low";
+ document.getElementById("riskHeader").textContent="Risk: "+risk;
+ document.getElementById("riskBox").innerHTML=`<span class="badge ${risk.toLowerCase()}">${risk} OA screening risk</span><p><b>Major indicators used:</b> ROM/asymmetry, gait speed/symmetry for legs, and movement smoothness where available. The prototype does not diagnose OA.</p>`;
+ document.getElementById("reportBody").innerHTML=rows.map(r=>`<tr><td>${r.region}</td><td>${r.param}</td><td>${r.ref}</td><td><b>${r.val}</b></td><td>${r.interp}</td></tr>`).join("");
+ document.getElementById("liveMetrics").innerHTML=rows.slice(0,6).map(r=>`<div class="metric">${r.param}<b>${r.val}</b><small>${r.interp}</small></div>`).join("");
+ goPage(4);
+}
+function scoreRom(v){return v>20?"Within movement-dependent range":"Low movement detected"}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+</script>
+</body>
+</html>
